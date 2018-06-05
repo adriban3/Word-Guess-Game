@@ -1,21 +1,19 @@
+var choices = ['The Process', 'Bryan Colangelo', 'Phanatic', 'Nick Foles'];
+
 var game = {
-    choices: ['The Process', 'Bryan Colangelo', 'Phanatic', 'Nick Foles'],
+    choice: choices[Math.floor(Math.random(choices.length))],
     wins: 0,
     losses: 0,
     numGuesses: 9,
     lettersGuessed: [],
     word: [],
 
-    compGuess: window.onload = function() {
-        return this.choices[Math.floor(Math.random(this.choices.length))];
-    },
-
     play: document.onkeyup = function() {
 
         var guess = event.key;
         console.log(guess);
 
-        this.word = "_".repeat(this.compGuess.length)
+        this.word = "_".repeat(this.choice.length);
         document.getElementById("word").innerHTML = "Word: " + this.word;
 
         this.lettersGuessed.push(this.guess);
@@ -25,10 +23,10 @@ var game = {
             var letterInd = this.compGuess.indexOf(this.guess);
             word[letterInd] = this.guess; 
 
-            if (this.word === this.compGuess) {
+            if (this.word === this.choice) {
                 this.wins++;
                 this.numGuesses = 9;
-                this.compGuess = choices[Math.floor(Math.random(choices.length))];
+                this.choice = choices[Math.floor(Math.random(choices.length))];
                 this.word = [];
             }
         else {
@@ -39,7 +37,7 @@ var game = {
             if (this.numGuess == 0) {
                 this.losses++;
                 this.numGuesses = 9;
-                this.compGuess = this.choices[Math.floor(Math.random(this.choices.length))];
+                this.choice = this.choices[Math.floor(Math.random(this.choices.length))];
                 this.word = [];
                 }
             }
