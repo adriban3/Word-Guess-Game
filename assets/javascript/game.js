@@ -6,10 +6,14 @@ var numGuesses = 9;
 var lettersGuessed = [];
 var word = "_".repeat(choice.length);
 document.getElementById("word").innerHTML = "Word: " + word;
+var fight = document.getElementById("fight")
 
 document.onkeyup = function() {
 
-    if (event.key >= 'a' && event.key <= 'z') {
+    fight.pause();
+    fight.currentTime = 0;
+
+    if (event.key >= 'a' && event.key <= 'z' && !lettersGuessed.includes(event.key)) {
         var guess = event.key;
         lettersGuessed.push(guess);
         document.getElementById("letGuess").innerHTML = "Letters Guessed: " + lettersGuessed;
@@ -24,6 +28,7 @@ document.onkeyup = function() {
             }
 
             if (word === choice) {
+                fight.play();
                 wins++;
                 document.getElementById("wins").innerHTML = "Wins: " + wins;
                 numGuesses = 9;
