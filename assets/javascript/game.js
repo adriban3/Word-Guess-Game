@@ -1,45 +1,56 @@
-var choices = ['The Process', 'Bryan Colangelo', 'Phanatic', 'Nick Foles'];
+var choices = ['the_process', 'bryan_colangelo', 'phanatic', 'nick_foles', 'eagles', 'phillies', 'sixers', 'flyers'];
+var choice = choices[Math.floor(Math.random()*choices.length)];
+var wins = 0;
+var losses = 0;
+var numGuesses = 9;
+var lettersGuessed = [];
+var word = "_".repeat(choice.length);
+document.getElementById("word").innerHTML = "Word: " + word;
 
-var game = {
-    choice: choices[Math.floor(Math.random(choices.length))],
-    wins: 0,
-    losses: 0,
-    numGuesses: 9,
-    lettersGuessed: [],
-    word: [],
+document.onkeyup = function() {
 
-    play: document.onkeyup = function() {
-
+    if (event.key >= 'a' && event.key <= 'z') {
         var guess = event.key;
-        console.log(guess);
+        lettersGuessed.push(guess);
+        document.getElementById("letGuess").innerHTML = "Letters Guessed: " + lettersGuessed;
 
-        this.word = "_".repeat(this.choice.length);
-        document.getElementById("word").innerHTML = "Word: " + this.word;
+        if (choice.includes(guess)) {
 
-        this.lettersGuessed.push(this.guess);
-        document.getElementById("letGuess").innerHTML = "Letters Guessed: " + this.lettersGuessed;
-
-        if (this.compGuess.includes(this.guess)) {
-            var letterInd = this.compGuess.indexOf(this.guess);
-            word[letterInd] = this.guess; 
-
-            if (this.word === this.choice) {
-                this.wins++;
-                this.numGuesses = 9;
-                this.choice = choices[Math.floor(Math.random(choices.length))];
-                this.word = [];
-            }
-        else {
-
-            this.numGuesses--;
-            document.getElementById("remGuess").innerHTML = "Remaining Guesses: " + this.numGuesses;
-
-            if (this.numGuess == 0) {
-                this.losses++;
-                this.numGuesses = 9;
-                this.choice = this.choices[Math.floor(Math.random(this.choices.length))];
-                this.word = [];
+            for (i=0; i<choice.length; i++) {
+                if (choice[i] === guess) {
+                    word = word.substring(0, i) + guess + word.substring(i+1);
+                    document.getElementById("word").innerHTML = "Word: " + word;
                 }
+            }
+
+            if (word === choice) {
+                wins++;
+                document.getElementById("wins").innerHTML = "Wins: " + wins;
+                numGuesses = 9;
+                document.getElementById("remGuess").innerHTML = "Losses: " + numGuesses;
+                choice = choices[Math.floor(Math.random(choices.length))];
+                word = "_".repeat(choice.length);
+                document.getElementById("word").innerHTML = "Word: " + word;
+                lettersGuessed = [];
+                document.getElementById("letGuess").innerHTML = "Letters Guessed: " + lettersGuessed;
+                }
+            }
+
+        else if (!choice.includes(guess)) {
+
+            numGuesses--;
+            document.getElementById("remGuess").innerHTML = "Remaining Guesses: " + numGuesses;
+
+            if (numGuesses === 0) {
+                losses++;
+                document.getElementById("losses").innerHTML = "Losses: " + losses;
+                numGuesses = 9;
+                document.getElementById("remGuess").innerHTML = "Losses: " + numGuesses;
+                choice = choices[Math.floor(Math.random(choices.length))];
+                word = "_".repeat(choice.length);
+                document.getElementById("word").innerHTML = "Word: " + word;
+                lettersGuessed = [];
+                document.getElementById("letGuess").innerHTML = "Letters Guessed: " + lettersGuessed;
             }
         }
     }
